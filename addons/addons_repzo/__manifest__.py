@@ -5,11 +5,8 @@
     'category': 'EndPoint',
     'summary': 'API Endpoint for Repzo',
     'depends': ['base', 'contacts', 'account', 'sale'],
-    'external_dependencies': {
-        'python': ['marshmallow>=3.15.0,<3.23.1'],
-    },
     'data': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
 }
