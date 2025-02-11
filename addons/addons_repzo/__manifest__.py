@@ -6,7 +6,7 @@
     'summary': 'API Endpoint for Repzo',
     'depends': ['base', 'contacts', 'account', 'sale'],
     'data': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'application': False,
 }
