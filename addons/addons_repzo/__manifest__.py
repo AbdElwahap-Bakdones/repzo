@@ -1,0 +1,12 @@
+{
+    'name': 'Repzo Endpoint',
+    'version': '1.1',
+    'author': 'AbdElwahap',
+    'category': 'EndPoint',
+    'summary': 'API Endpoint for Repzo',
+    'depends': ['base', 'contacts', 'account', 'sale'],
+    'data': [],
+    'installable': False,
+    'auto_install': False,
+    'application': False,
+}
