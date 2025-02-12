@@ -203,18 +203,18 @@ class ProductEndpoint(http.Controller):
             _logger.debug("@3@: %s", new_product.id)
 
             # Handle variants
-            if 'variants' in validated_data:
-                for variant in validated_data['variants']:
-                    variant_vals = {
-                        # 'product_tmpl_id': new_product.id,
-                        'name': variant['name'],
-                        'barcode': variant.get('barcode', ''),
-                        # price multiplied by 1000 before sending
-                        'list_price': variant['price'],
-                        'default_code': variant.get('sku', ''),
-                        'sequence': variant.get('position', 0),
-                    }
-                    request.env['product.product'].sudo().create(variant_vals)
+            # if 'variants' in validated_data:
+            #     for variant in validated_data['variants']:
+            #         variant_vals = {
+            #             # 'product_tmpl_id': new_product.id,
+            #             'name': variant['name'],
+            #             'barcode': variant.get('barcode', ''),
+            #             # price multiplied by 1000 before sending
+            #             'list_price': variant['price'],
+            #             'default_code': variant.get('sku', ''),
+            #             'sequence': variant.get('position', 0),
+            #         }
+            #         request.env['product.product'].sudo().create(variant_vals)
 
             return {"status": "success", "product_id": new_product.id}
 

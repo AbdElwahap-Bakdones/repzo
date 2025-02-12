@@ -37,8 +37,8 @@ class ProductCreateValidationSchema(Schema):
         required=False, allow_none=True)  # Measure unit ID
     sv_tax = fields.List(fields.Str(), required=False,
                          allow_none=True)  # List of tax IDs
-    variants = fields.List(fields.Nested('VariantSchema'),
-                           required=True)  # List of variants
+    # variants = fields.List(fields.Nested('VariantSchema'),
+    #                        required=True)  # List of variants
 
     class VariantSchema(Schema):
         name = fields.Str(required=True, validate=validate.Length(min=1))
