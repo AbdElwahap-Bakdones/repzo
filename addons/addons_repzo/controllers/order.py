@@ -94,7 +94,6 @@ class OrderEndpoint(http.Controller):
 
     @http.route('/api/add_order_invoice', type='json', auth='user', methods=['POST'])
     def create_order_with_invoice_and_picking(self, **kwargs):
-        # Validation schema for incoming data
         schema = OrderCreateValidationSchema()
 
         try:
@@ -112,24 +111,30 @@ class OrderEndpoint(http.Controller):
             # Step 2: Confirm the order
             order.action_confirm()
 
-            # Step 3: Create an invoice for the confirmed order
+            # Step 3: Validate stock picking (Inventory Movement)
+            for picking in order.picking_ids:
+                if picking.state == 'draft':
+                    picking.action_confirm()  # Confirm picking if it's in draft
+
+                if picking.state in ['confirmed', 'waiting', 'assigned']:
+                    picking.action_assign()  # Assign stock (if available)
+
+                if picking.state == 'assigned':  # Stock is assigned, now validate
+                    for move in picking.move_ids_without_package:
+                        move.quantity_done = move.product_uom_qty  # Set full quantity as done
+                    
+                    picking.button_validate()  # Validate the picking (complete delivery)
+
+            # Step 4: Create an invoice
             invoice = None
             if order.invoice_status != 'no':
                 invoice = order._create_invoices()
-                invoice.action_post()  # Post the invoice if required
-
-            # Step 4: Create picking/store move for the order
-            if order.picking_ids:
-                for picking in order.picking_ids:
-                    if picking.state == 'draft':
-                        picking.action_confirm()
-                    if picking.state not in ['done', 'cancel']:
-                        picking.action_assign()  # Assign products to picking
+                invoice.action_post()  # Post the invoice
 
             return {
                 "status": "success",
                 "order_id": order.id,
-                "invoice_id": invoice.id if invoice else None,  # Ensure safe access
+                "invoice_id": invoice.id if invoice else None,
                 "picking_ids": [picking.id for picking in order.picking_ids],
             }
 
