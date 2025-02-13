@@ -189,7 +189,8 @@ class ProductEndpoint(http.Controller):
                 # Convert image URL to binary
                 # 'image_1920': self._get_image_binary(validated_data.get('product_img')),
                 # measure_unit_ID
-                'uom_id': validated_data.get('sv_measureUnit'),
+                # 'uom_id': validated_data.get('sv_measureUnit'),
+                # 'uom_po_id': request.env.ref('uom.product_uom_unit').id,  # Set default UoM
                 # tax_id
                 'taxes_id': [(6, 0, validated_data.get('sv_tax', []))],
                 'frozen_pre_sales': validated_data.get('frozen_pre_sales', False),
