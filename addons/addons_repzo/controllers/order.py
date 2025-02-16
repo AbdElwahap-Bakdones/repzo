@@ -103,9 +103,13 @@ class OrderEndpoint(http.Controller):
 
             # Step 1: Create the order
             order_data = {
-                'partner_id': validated_data['partner_id'],
-                'order_line': [(0, 0, line) for line in validated_data['order_line']],
-            }
+            'partner_id': validated_data['partner_id'],
+            'order_line': [(0, 0, {
+                'product_id': line['product_id'],
+                'product_uom_qty': line.get('quantity', 1),  # Default to 1 if quantity not provided
+                'price_unit': line['price_unit']
+            }) for line in validated_data['order_line']],}
+            
             order = request.env['sale.order'].create(order_data)
 
             # Step 2: Confirm the order
