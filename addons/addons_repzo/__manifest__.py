@@ -1,7 +1,7 @@
 {
     'name': 'Repzo Endpoint',
     'version': '1.1',
-    'author': 'AbdElwahap',
+    'author': 'AbdElwahapBak',
     'category': 'EndPoint',
     'summary': 'API Endpoint for Repzo',
     'depends': ['base', 'contacts', 'account', 'sale'],
